@@ -20,10 +20,19 @@ test('wait 500 ms', async () => {
 // shows how the runner will run a javascript action with env / stdout protocol
 test('test runs', () => {
   process.env['INPUT_MILLISECONDS'] = '500'
+  process.env['INPUT_FOO'] = 'FOOFOOFOO'
   const np = process.execPath
   const ip = path.join(__dirname, '..', 'lib', 'main.js')
   const options: cp.ExecFileSyncOptions = {
     env: process.env
   }
-  console.log(cp.execFileSync(np, [ip], options).toString())
+  try {
+    const execResult = cp.execFileSync(np, [ip], options).toString();
+    console.log(execResult);
+  } catch (e) {
+    // @ts-ignore
+    console.error(`DERP: ${e.stdout.toString()}`, e)
+    throw e
+  }
+
 })

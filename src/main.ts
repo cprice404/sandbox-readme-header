@@ -3,6 +3,12 @@ import {wait} from './wait'
 
 async function run(): Promise<void> {
   try {
+    const foo: string = core.getInput('foo')
+    if (foo !== 'FOOFOOFOO') {
+      throw new Error(`Invalid value for FOO!: '${foo}'`);
+    }
+    core.info(`Got value for foo: ${foo}`)
+
     const ms: string = core.getInput('milliseconds')
     core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
 
